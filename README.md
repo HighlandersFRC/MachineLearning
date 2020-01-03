@@ -147,18 +147,24 @@ $ python train.py --logtostderr --train_dir=training/ --pipeline_config_path=tra
 
 This process will take some time, it runs considerably faster on systems with faster GPUS.
 
+### Exporting the Model:
+The model can be exported using the following commands:
+~~~
+$ mkdir fine_tuned_model
+$ python research/object_detection/export_inference_graph.py --input_type image_tensor --pipeline_config_path --trained_checkpoint_prefix  train/model.ckpt-<the_highest_checkpoint_number> --output_directory fine_tuned_model
+~~~
 ### Testing the models:
 Models can be evaluated in two ways.
 * Using Tensorboard 
 	~~~
 	$ tensorboard --logdir=training
 	~~~
-	This will show graphs showing the model loss and is a great way of checking to make sure a model is training properly.
+	This will show graphs showing the model loss and is a great way of checking to make sure a model is training properly. This does not require that the model has been exported
 * Testing with the image eval script:
 	~~~
 	$ python3 test_model.py
 	~~~	
-	This will load images from the test directory and annotate and draw boxes around any detected instances of the image.
+	This will load images from the test directory and annotate and draw boxes around any detected instances of the image. The model must be exported as described above for this command to work.
 
 
 
