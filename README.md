@@ -13,23 +13,23 @@ To install natively perform the following actions:
 
 Installing TensorFlow:
 ~~~
-$ pip3 install tensorflow
-$ pip3 install pillow Cython lxml jupyter matplotlib
+pip3 install tensorflow
+pip3 install pillow Cython lxml jupyter matplotlib
 ~~~
 Installing Brew:
 ~~~
-$ sudo apt-get install build-essential curl file git
-$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+sudo apt-get install build-essential curl file git
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
 
-$ test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
-$ test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-$ test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
-$ echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
+test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
+echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
 ~~~
 
 Install Protobufs using Brew:
 ~~~
-$ brew install protobuf
+brew install protobuf
 ~~~
 ### Installation with Docker
 Begin by downloading  the latest nvidia drivers for ubuntu and install them.  This can be done either through the command line or using the Graphical user interface. 
@@ -39,34 +39,34 @@ Alternatively instructions for installing Docker on Ubuntu 18.04 are included be
 
 Add the Docker Repository:
 ~~~
-$ sudo apt-get update
-$ sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 ~~~
 Install Docker:
 ~~~
-$ apt-get update
-$ sudo apt-get install docker-ce docker-ce-cli containerd.io
+apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
 ~~~
 
 Once Docker installation is complete validate the installation using
 ~~~
-$ docker --version
+docker --version
 ~~~
 Please note: Make sure your version of docker is > 19.03. Docker versions before 19.03 do not include the gpu flags needed for tensorflow gpu.
 
 Install Docker Image for Tensorflow using:
 ~~~
-$ docker pull tensorflow/tensorflow:1.14.0-gpu
+docker pull tensorflow/tensorflow:1.14.0-gpu
 ~~~
 Alternatively to get the latest docker image:
 ~~~
-$ docker pull tensorflow/tensorflow-gpu
+docker pull tensorflow/tensorflow-gpu
 ~~~
 Run the docker image:
 ~~~
-$ docker run --gpus all -it tensorflow/tensorflow:1.14.0-gpu bash
+docker run --gpus all -it tensorflow/tensorflow:1.14.0-gpu bash
 ~~~
 This will open the user into a docker shell which includes tensorflow.
 more information about installing docker with tensorflow can be found [here](https://www.tensorflow.org/install/docker).
@@ -76,15 +76,15 @@ more information about installing docker with tensorflow can be found [here](htt
 ### Extracting the models tar file
 Now that initial configuration has been done, the next step to training a CNN is configuring the models directory. To help simplify configuration a pre-configured models directory is included with this repository under models.tar. Download this repository and run the following:
 ~~~
-$ tar -xaf models.tar
-$ cd models
+tar -xaf models.tar
+cd models
 ~~~
 ### Preparing Sample Images
 Once the models directory has been downloaded the next step to building a CNN is to prepare training data. First find images pertaining to what you would like to track. This can be done either by taking pictures of the subject, or by downloading a lot of pictures online. The more pictures available to the better the classifier will be.
 
 After acquiring pictures, move all of the pictures to the models/images directory. The pictures will then be sorted into test and train images. This can be done easily by running the rename_images script from within the models directory.
 ~~~
-$ python3 rename_images.py
+python3 rename_images.py
 ~~~
 Now that images are sorted, label the images using the labelimg  program found [here](https://github.com/tzutalin/labelImg). It is recommended to use one of the pre-compiled executable versions. This process will need to be done for both the images/train and images/test directories independently. Make sure for each directory the the xml destination folders are set to annotations/test and annotations/train directories respectively.
 ### Create a label map
@@ -105,19 +105,17 @@ item {
 The next step to building a CNN is building TensorFlow record files. These files contain the information needed for TensorFlow to train the model. Building the TF record files can be accomplished in two steps, first generate CSV files of the training data, then generate record files based upon the available images and CSV files. 
 Install dependencies:
 ~~~
-$ pip3 install pandas
+pip3 install pandas
 ~~~
 Convert XML to CSV files:
 ~~~
-$ python3 xml_to_csv.py -i images\train -o annotations\train_labels.csv
-$ python3 xml_to_csv.py -i images\test -o annotations\test_labels.csv
+python3 xml_to_csv.py -i images\train -o annotations\train_labels.csv
+python3 xml_to_csv.py -i images\test -o annotations\test_labels.csv
 ~~~
 Convert csv files to record files:
 ~~~
-$ python3 generate_tfrecord.py --label=<your label from label map> --csv_input=annotations/train_labels.csv
---img_path=images/train  --output_path=annotations/train.record
-$ python generate_tfrecord.py --label=<your label from label map> --csv_input=annotations/train_labels.csv
---img_path=images/train  --output_path=annotations/train.record
+python3 generate_tfrecord.py --label=<your label from label map> --csv_input=annotations/train_labels.csv --img_path=images/train  --output_path=annotations/train.record
+python generate_tfrecord.py --label=<your label from label map> --csv_input=annotations/train_labels.csv --img_path=images/train  --output_path=annotations/train.record
 ~~~
 
 Once this is done make sure the records files are not empty. If the above script fails this file is often left empty and will cause the training to enter an infinite loop.
@@ -128,8 +126,8 @@ Before training the model there are some final steps that must be taken.
 ### Compiling protobuf sources
 In order to train a model, protobuf sources must be compiled This is done with the following steps:
 ~~~
-$ cd models/research/
-$ protoc object_detection/protos/*.proto --python_out=.
+cd models/research/
+protoc object_detection/protos/*.proto --python_out=.
 ~~~
 Add the compiled object detection directory to your path:
 $ export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
@@ -142,7 +140,7 @@ The next step that must be taken is modification to the training config file: ss
 
 ### Training the models:
 ~~~
-$ python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/ssd_inception_v2_coco.config
+python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/ssd_inception_v2_coco.config
 ~~~
 
 This process will take some time, it runs considerably faster on systems with faster GPUS.
@@ -150,8 +148,8 @@ This process will take some time, it runs considerably faster on systems with fa
 ### Exporting the Model:
 The model can be exported using the following commands:
 ~~~
-$ mkdir fine_tuned_model
-$ python research/object_detection/export_inference_graph.py --input_type image_tensor --pipeline_config_path --trained_checkpoint_prefix  train/model.ckpt-<the_highest_checkpoint_number> --output_directory fine_tuned_model
+mkdir fine_tuned_model
+python research/object_detection/export_inference_graph.py --input_type image_tensor --pipeline_config_path --trained_checkpoint_prefix  train/model.ckpt-<the_highest_checkpoint_number> --output_directory fine_tuned_model
 ~~~
 ### Testing the models:
 Models can be evaluated in two ways.
