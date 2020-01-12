@@ -11,7 +11,7 @@ To install natively perform the following actions:
 
 
 
-Installing TensorFlow:
+Installing TensorFlow (will not work on Jetson, follow https://docs.nvidia.com/deeplearning/frameworks/install-tf-jetson-platform/index.html for Jetson install):
 ~~~
 pip3 install tensorflow
 pip3 install pillow Cython lxml jupyter matplotlib
