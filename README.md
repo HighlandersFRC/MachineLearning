@@ -61,7 +61,7 @@ Install Docker Image for Tensorflow using:
 ~~~
 docker pull tensorflow/tensorflow:1.14.0-gpu
 ~~~
-Alternatively to get the latest docker image:
+Alternatively to get the latest docker image (won't work on jetson, follow: https://github.com/NVIDIA/nvidia-docker):
 ~~~
 docker pull tensorflow/tensorflow-gpu
 ~~~
