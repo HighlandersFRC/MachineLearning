@@ -37,7 +37,7 @@ Begin by downloading  the latest nvidia drivers for ubuntu and install them.  Th
 
 Next install Docker to run the tensorflow container, full instructions for installing docker can be found [here](https://docs.docker.com/install/).
 Alternatively instructions for installing Docker on Ubuntu 18.04 are included below.
-
+(this does not work on Jetson, use: https://blog.hypriot.com/post/nvidia-jetson-nano-upgrade-docker/)
 Add the Docker Repository:
 ~~~
 sudo apt-get update
