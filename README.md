@@ -15,7 +15,7 @@ Installing TensorFlow (will not work on Jetson, follow https://docs.nvidia.com/d
 ~~~
 pip3 install tensorflow
 pip3 install pillow Cython lxml jupyter matplotlib
-to install matplotlib on jetson use: sudo apt-get install python-matplotlib
+to install matplotlib on jetson use: sudo apt-get install python3-matplotlib
 ~~~
 Installing Brew:
 ~~~
