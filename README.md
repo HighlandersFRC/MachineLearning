@@ -32,6 +32,7 @@ Install Protobufs using Brew:
 ~~~
 brew install protobuf
 ~~~
+After this is complete restart the system.
 ### Installation with Docker
 Begin by downloading  the latest nvidia drivers for ubuntu and install them.  This can be done either through the command line or using the Graphical user interface. 
 
